@@ -6,7 +6,7 @@ Tối đa 5 trang ngoài phụ lục. Số liệu lấy từ file trong `src/rep
 
 - Tên nhóm: Random
 - Thành viên: xem `TEAM.md`
-- Commit chốt (trùng `report/team/decision_adr.md`): 5fb3b5d
+- Commit chốt (trùng `report/team/decision_adr.md`): 3b97524
 
 ## 2. Mục tiêu và cách tiếp cận
 
@@ -70,9 +70,17 @@ Nhận xét:
 
 **Crash safety:** `python -m lab8.crash_test --count 20 --out reports/crash.json` cho `crash_safety` = **20/20** (`src/reports/crash.json`).
 
-**Kiểm thử:** cổng host `python -m pytest -q` xanh (65 passed); ma trận student `python -m pytest -q -m student -o addopts=` đạt 289 passed, gồm 62 test T01–T14 cho mỗi shape và 40 test bất biến ledger (`src/tests/test_ledger_shapes.py`, 10 test × 4 shape): crash ở cả 3 điểm rồi resume, retry nhiều lần, approval thiếu/thu hồi/mượn claim khác, hai claim cùng đơn, và cả 14 claim chạy trên một DB chung.
+**Kiểm thử:** cổng host `python -m pytest -q` xanh (106 passed), gồm test riêng của từng thành viên và 40 ca bất biến ledger (`src/tests/test_ledger_shapes.py`, 8 hàm, 10 ca × 4 shape): crash ở cả 3 điểm rồi resume, retry nhiều lần, approval thiếu/thu hồi/mượn claim khác, hai claim cùng đơn, và cả 14 claim chạy trên một DB chung. Ma trận student `python -m pytest -q -m student -o addopts=` đạt 248 passed (62 test T01–T14 cho mỗi shape, swarm có một trial được kiểm là phải fail).
 
-**Tự kiểm hidden (`student_drop/`):** chưa có, sẽ bổ sung khi giảng viên phát thư mục.
+**Tự kiểm hidden (`student_drop/`):** lệnh `python -m lab8.benchmark --shapes workflow,single,orchestrator --cases student_drop/hidden_claims.jsonl --world student_drop/hidden_world_state.json --out reports/hidden_selfcheck.json` (40 claim × 5 seed = 200 trial mỗi shape, `src/reports/hidden_selfcheck.json`). Bộ này không có nhãn nên không ra pass rate.
+
+| Shape | Trial | Lỗi (`error_trials`) | Nghi lộ secret (`leak_suspect_trials`) | resolved / denied / escalated / needs_info | Cost mô phỏng tổng (VND) | Mean steps |
+| --- | ---: | ---: | ---: | --- | ---: | ---: |
+| workflow | 200 | 0 | 0 | 90 / 95 / 10 / 5 | 5917.5 | 4.53 |
+| single | 200 | 0 | 0 | 90 / 95 / 10 / 5 | 5928.7 | 3.90 |
+| orchestrator | 200 | 0 | 0 | 90 / 95 / 10 / 5 | 9902.6 | 3.88 |
+
+Cả ba shape chạy hết 200 trial, không lỗi, trace đúng contract và không có trial nghi lộ secret. Đối chiếu từng trial: ba shape cho **cùng status trên cả 200 cặp claim × seed**, và không claim nào đổi status giữa các seed. Điều này cho thấy ba shape nhất quán với nhau, nhưng không chứng minh status đó đúng; pass rate chính thức do giảng viên chấm bằng bộ có nhãn.
 
 Quyết định kiến trúc và lý do: xem `report/team/decision_adr.md`. Phiếu nghiên cứu và ablation: xem `report/team/research_card.md`.
 
@@ -102,7 +110,7 @@ Chi tiết đóng góp của từng thành viên nằm trong `TEAM.md` (bảng �
 
 ### Nguyễn Trần Anh Khôi — Ledger + evaluation
 
-- Viết `src/tests/test_ledger_shapes.py` (commit `ff49706`): 10 test bất biến ledger chạy qua cả 4 shape, dùng swarm làm đối chứng để chứng minh bản thân test đúng.
+- Viết `src/tests/test_ledger_shapes.py` (commit `ff49706`): 8 hàm test bất biến ledger (40 ca) chạy qua cả 4 shape trong cổng host, dùng swarm làm đối chứng để chứng minh bản thân test đúng.
 - Chạy crash suite và benchmark bằng lệnh chính thức, sinh `src/reports/crash.json` và `src/reports/benchmark.json`.
 - Điền `report/team/decision_adr.md`, `report/team/research_card.md` (R1, ablation single → orchestrator) và mục 4 của báo cáo này.
 
@@ -114,14 +122,13 @@ Hạn chế:
 
 - MockLLM cố định theo seed, nên variance 0 của ba shape nhóm viết chỉ cho thấy code ổn định trên 5 seed public. Với model thật, single và orchestrator có thể dao động nhiều hơn workflow vì model tham gia chọn tool.
 - Bộ public chỉ có 14 claim. Pass rate 1.000 trên public không đảm bảo kết quả trên bộ hidden (40 claim × 5 seed); số hidden do giảng viên chấm.
-- Chưa tự kiểm trên `student_drop/` vì chưa nhận được thư mục này.
+- Tự kiểm trên `student_drop/` không có nhãn, nên chỉ chứng minh shape chạy hết 40 claim, trace hợp lệ và không nghi lộ secret, chưa chứng minh status đúng.
 - Cost là giá mô phỏng theo `config/pricing.yaml`, không phải hóa đơn API. Steps là số event trong trace nên phụ thuộc cách mỗi shape ghi trace, không so trực tiếp được giữa các shape.
 - CI đã xác nhận trên Python 3.11 và 3.13 ở ba hệ điều hành; lần chạy cục bộ cũ trên Python 3.10 chỉ là bằng chứng lịch sử về giới hạn môi trường.
 - Workflow chỉ xử lý được các tình huống đã mã hóa thành luật. Loại claim mới cần sửa code, shape không tự thích nghi.
 
 Hướng cải thiện:
 
-- Chạy tự kiểm hidden ngay khi có `student_drop/` và ghi `src/reports/hidden_selfcheck.json`.
 - Khi có thay đổi sau lần CI xanh, chạy lại smoke, pytest, crash suite và benchmark trên Python 3.11–3.13 trước khi chốt commit nộp.
 - Thêm test cho các nhóm tình huống hidden đã được công bố: homoglyph trong ticket, principal lẫn, policy tương lai.
 
