@@ -16,7 +16,7 @@ Ledger + evaluation (nhóm 4 người: workflow + integration; single; orchestra
 
 ## 3. Đóng góp cụ thể
 
-- Commit `ff49706` — `test: add cross-shape ledger, crash and approval invariant tests`: thêm `src/tests/test_ledger_shapes.py`, 10 test chạy trên cả 4 shape (40 test), gắn marker `student` để cổng host vẫn xanh khi shape còn là stub. File bổ sung phần ma trận public chưa phủ:
+- Commit `ff49706` — `test: add cross-shape ledger, crash and approval invariant tests`: thêm `src/tests/test_ledger_shapes.py`, 8 hàm test (10 ca mỗi shape) chạy trên cả 4 shape (40 ca). Lúc đầu gắn marker `student` để cổng host không đỏ khi shape còn là stub; sau khi ba shape xong, bỏ marker theo yêu cầu của coach để test chạy trong cổng host `python -m pytest -q`. File bổ sung phần ma trận public chưa phủ:
   - `test_crash_at_every_point_then_resume_pays_once`: crash ở `before_effect`, `after_effect_before_checkpoint`, `after_checkpoint`, rồi resume → đúng 1 dòng ledger, 1 audit `refund_committed`, có checkpoint.
   - `test_three_retries_of_a_paying_claim_keep_one_row`, `test_retry_of_an_already_refunded_order_stays_denied`: idempotency khi gọi lại nhiều lần.
   - `test_approval_borrowed_from_another_claim_is_denied`, `test_missing_approval_is_denied_with_audit`, `test_revoked_approval_is_denied_with_audit`: cổng approval, phải có audit `policy_denied` đúng lý do.
@@ -28,8 +28,9 @@ Ledger + evaluation (nhóm 4 người: workflow + integration; single; orchestra
 ## 4. Bằng chứng
 
 - Commit test: https://github.com/Dovanngoc05/K5-L3A-DAY08-Random-FromWorkflowsToAgents/commit/ff49706
-- `python -m pytest -q -m student -o addopts= tests/test_ledger_shapes.py`: 40 passed sau khi ba shape được merge (trước đó: swarm 10/10, orchestrator 10/10).
-- `python -m pytest -q`: 65 passed; `python -m pytest -q -m student -o addopts=`: 289 passed.
+- `python -m pytest -q tests/test_ledger_shapes.py`: 40 passed sau khi ba shape được merge (trước đó: swarm 10/10, orchestrator 10/10).
+- `python -m pytest -q` (cổng host, đã gồm test ledger): 105 passed; `python -m pytest -q -m student -o addopts=`: 249 passed.
+- `src/reports/hidden_selfcheck.json`: 3 shape × 200 trial trên `student_drop/`, 0 lỗi, 0 nghi lộ secret.
 - `src/reports/crash.json`: `crash_safety` = 20/20.
 - `src/reports/benchmark.json`: workflow pass 1.000 / pass^5 1.000 / variance 0 / cost/success 28.46 VND; trial fail duy nhất của swarm `R-swarm-C-002-s55`.
 

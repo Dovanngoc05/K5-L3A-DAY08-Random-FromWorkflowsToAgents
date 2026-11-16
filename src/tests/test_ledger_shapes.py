@@ -11,11 +11,11 @@ crash point (T12). This file covers what it does not:
 - two claims on the same order in one store: the order is paid once;
 - all 14 public claims in one shared store: ledger invariants and no leaked secret/PII.
 
-Marked `student` so the host gate (`python -m pytest -q`) stays green while shapes are
-stubs. Run:
+Not marked `student`: these tests run in the host gate (`python -m pytest -q`) and must
+stay green. Run only this file:
 
-    python -m pytest -q -m student -o addopts= tests/test_ledger_shapes.py
-    python -m pytest -q -m student -o addopts= tests/test_ledger_shapes.py -k workflow
+    python -m pytest -q tests/test_ledger_shapes.py
+    python -m pytest -q tests/test_ledger_shapes.py -k workflow
 
 Swarm is included as the reference: its rows must pass, which shows the tests themselves
 are correct. All runs use seed 11 (the swarm weakness only fires on seed % 5 == 0).
@@ -33,8 +33,6 @@ from lab8.durability import InjectedCrash, idempotency_key
 from lab8.metrics import artifact_blob, check_trace, trial_pass, unexpected_ledger_rows
 from lab8.shapes import SHAPES
 from tests.conftest import BY_ID, CLAIMS, WORLD
-
-pytestmark = pytest.mark.student
 
 SHAPES_UNDER_TEST = ["workflow", "single", "orchestrator", "swarm"]
 SEED = 11
