@@ -13,7 +13,7 @@
 - Triển khai shape A tại `src/lab8/shapes/workflow.py`: chuỗi bước Python cố định, không có vòng lặp, model không tham gia quyết định.
 - Giữ ranh giới code / model / host trong shape: code đọc dữ liệu và tính tiền, host kiểm approval và ghi ledger, MockLLM chỉ soạn câu trả lời.
 - Thêm test riêng cho workflow tại `src/tests/test_workflow_extra.py`.
-- Integration: gộp ba shape vào `main`, giữ cổng host xanh, chạy benchmark, crash suite và `check_submission`. Phần này chưa hoàn tất, xem mục 6.
+- Integration: gộp nhánh `feat/workflow` vào `main` và kiểm tra lại sau khi gộp (cổng host, ma trận student, `check_submission`). Benchmark và crash suite do thành viên phụ trách evaluation chạy.
 
 ## 3. Đóng góp cụ thể
 
@@ -39,26 +39,45 @@ Test đã thêm (`src/tests/test_workflow_extra.py`, 4 hàm, 8 ca):
 - `test_workflow_retry_keeps_one_refund_and_clean_trace`: chạy C-011 hai lần vẫn một dòng ledger 35.000; trace khớp `run_id`, không chứa secret hay nội dung ticket.
 
 Commit:
-git a
+
 - [603e469](https://github.com/Dovanngoc05/K5-L3A-DAY08-Random-FromWorkflowsToAgents/commit/603e469) — triển khai `workflow.py`.
 - [1e53ad2](https://github.com/Dovanngoc05/K5-L3A-DAY08-Random-FromWorkflowsToAgents/commit/1e53ad2) — thêm `test_workflow_extra.py`; đã push lên nhánh `feat/workflow`.
+- [b05673d](https://github.com/Dovanngoc05/K5-L3A-DAY08-Random-FromWorkflowsToAgents/commit/b05673d) — báo cáo cá nhân.
+
+Nhánh `feat/workflow` đã được gộp vào `main`.
 
 ## 4. Bằng chứng
+
+Kết quả kiểm tra lại sau khi gộp, trên bản sao của `main` tại commit `051be2c`. Các lệnh do trợ lý Claude chạy (Python 3.13, Linux), không phải trên máy của tôi:
+
 | Lệnh | Kết quả quan sát |
 | --- | --- |
-| `python -m pytest -q -m student -o addopts= -k workflow` | 62 passed, 240 deselected |
+| `python -m pytest -q` | 65 passed, 289 deselected |
+| `python -m pytest -q -m student -o addopts=` | 289 passed, 65 deselected |
+| `python -m pytest -q -m student -o addopts= -k workflow` | 62 passed cho ma trận T01–T14 của workflow |
 | `python -m pytest -q tests/test_workflow_extra.py` | 8 passed |
-| `python -m pytest -q` | 62 passed, 248 deselected; chưa gồm test của các thành viên khác |
+| `python -m lab8.check_submission` | 0 FAIL (1 WARN vì bản sao không có git) |
+| `python -m lab8.benchmark ...` (lệnh chính thức, ghi ra file tạm) | Số của cả 4 shape khớp `src/reports/benchmark.json` đã commit |
 
-Bộ student đã được chạy cho workflow và sinh trace tại `src/traces/R-workflow-*.json`. Ví dụ `R-workflow-C-005-s11` chỉ có ba event `claim`, `lookup_order`, `decision` với lý do `outside_principal_scope`, không có dữ liệu của đơn.
+Số liệu của workflow trong `src/reports/benchmark.json`: pass rate 1.000, pass^5 1.000, variance 0, cost/success 28.46 VND (mô phỏng) trên 14 claim × 5 seed. `src/reports/crash.json` ghi `crash_safety` = 20/20. Hai file này do thành viên phụ trách evaluation sinh ra bằng lệnh chính thức.
 
-Chưa có `src/reports/benchmark.json`, `src/reports/crash.json` hay kết quả hidden cho báo cáo này; không suy ra các số liệu đó từ kết quả pytest.
+Trên máy của tôi, bộ student đã được chạy cho workflow và sinh trace tại `src/traces/R-workflow-*.json`. Ví dụ `R-workflow-C-005-s11` chỉ có ba event `claim`, `lookup_order`, `decision` với lý do `outside_principal_scope`, không có dữ liệu của đơn.
+
+Chưa có kết quả hidden; pass rate hidden do giảng viên chấm.
 
 ## 5. Công cụ AI đã dùng
 
-Sử dụng Claude để đọc yêu cầu lab, giải thích luật nghiệp vụ và contract, kiểm tra trạng thái repo 
+Sử dụng Claude vào các việc sau:
 
+- Đọc yêu cầu lab, giải thích luật nghiệp vụ, contract và từng nhánh của `workflow.py`.
+- Soạn bản đầu của `workflow.py` và viết `src/tests/test_workflow_extra.py`.
+- Kiểm tra trạng thái repo, chạy lại test và benchmark trên bản sao (bảng ở mục 4).
+- Soạn bản nháp báo cáo này, dòng của tôi trong `TEAM.md` và đoạn mô tả workflow trong báo cáo nhóm.
+
+Code lab chỉ dùng MockLLM có sẵn, không gọi model thật và không dùng API key.
+
+Cách tự kiểm tra: đọc lại từng nhánh của `workflow.py` cùng phần giải thích để nắm ranh giới code / model / host và lý do truyền quote đầy đủ; chạy bộ student cho workflow trên máy mình; mở trace để kiểm tra không có secret hay thông tin cá nhân. Các con số trong bảng ở mục 4 do Claude chạy và báo lại; tôi cần chạy lại trên máy mình và đối chiếu trước khi nộp.
 
 ## 6. Tự đánh giá
 
-Shape workflow đáp ứng các ca public đã chạy, gồm cả gọi lại cùng claim (T11) và crash rồi resume (T12). Bằng chứng hiện giới hạn ở dữ liệu public và các test đã nêu; chưa có cơ sở kết luận về bộ hidden hay so sánh với các shape khác. MockLLM không đại diện model sản xuất; latency là `unavailable`.
+Shape workflow đáp ứng các ca public đã chạy, gồm cả gọi lại cùng claim (T11) và crash rồi resume (T12). Trên bộ public, workflow ngang pass rate với single và orchestrator và có cost/success thấp nhất, nên được nhóm chọn trong ADR. Bằng chứng hiện giới hạn ở dữ liệu public; chưa có cơ sở kết luận về bộ hidden. MockLLM không đại diện model sản xuất; latency là `unavailable`.

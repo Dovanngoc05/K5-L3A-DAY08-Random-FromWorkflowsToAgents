@@ -2,13 +2,10 @@
 
 import json
 
-import pytest
-
 from lab8.db import connect
 from lab8.shapes.single import run_claim
 
 
-@pytest.mark.student
 def test_single_uses_order_facts_instead_of_ticket_delay(public_db):
     # C-002's ticket claims a longer delay than its order row. The single agent
     # must quote from the verified order, so no refund is due.
