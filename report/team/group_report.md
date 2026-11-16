@@ -108,6 +108,11 @@ Chi tiết đóng góp của từng thành viên nằm trong `TEAM.md` (bảng �
 - Thêm `src/tests/test_workflow_extra.py` (commit `1e53ad2`): 4 hàm, 8 ca, kiểm tra workflow không tin ticket trên cả 5 seed, truyền quote đầy đủ, host từ chối vẫn có audit `policy_denied`, gọi lại vẫn một refund và trace sạch.
 - Integration: gộp nhánh `feat/workflow` vào `main` và kiểm tra lại sau khi gộp; chi tiết ở `report/team/2A202603462_NguyenQuangDuy.md`.
 
+### Đoàn Nhật Anh — Orchestrator + handoff + bảo mật
+- Phụ trách src/lab8/shapes/orchestrator.py (commit 158d999): dựng handoff theo allowlist, investigator chỉ sử dụng tool đọc, tiền do code tính và host là nơi duy nhất ghi refund; truyền quote đầy đủ và hỗ trợ crash/resume.
+- Thêm src/tests/test_orchestrator_security.py (commit 158d999): 2 hàm, 3 ca, kiểm tra ticket injection không thay đổi quote, handoff chỉ cấp tool đọc, trace không lộ dữ liệu nhạy cảm và các nhánh trả về sớm không giao việc cho investigator.
+- Bổ sung phần giải pháp orchestrator và bảo mật trace trong báo cáo nhóm, ADR; cập nhật bằng chứng đóng góp (commit bdc874a). Chi tiết ở report/team/2A202603408_DoanNhatAnh.md.
+
 ### Nguyễn Trần Anh Khôi — Ledger + evaluation
 
 - Viết `src/tests/test_ledger_shapes.py` (commit `ff49706`): 8 hàm test bất biến ledger (40 ca) chạy qua cả 4 shape trong cổng host, dùng swarm làm đối chứng để chứng minh bản thân test đúng.
