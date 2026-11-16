@@ -27,7 +27,7 @@
 - Dùng `finish()` trên mọi nhánh trả kết quả bình thường để ghi trace và lấy refund effects/audit từ ledger. Trace chỉ ghi các event và field cần thiết.
 - Chỉ dùng MockLLM để soạn phản hồi từ status và proposal đã được code quyết định.
 - Thêm `src/tests/test_orchestrator_security.py` với ba ca kiểm thử bảo mật và nhánh trả về sớm.
-- Commit chính: **chưa có; cần bổ sung hash và link commit sau khi commit phần việc**.
+- Commit chính: [158d999](https://github.com/Dovanngoc05/K5-L3A-DAY08-Random-FromWorkflowsToAgents/commit/158d999) — triển khai orchestrator, test bảo mật và báo cáo.
 
 ## 4. Bằng chứng
 
@@ -60,6 +60,6 @@ Phần triển khai và test hiện đã đáp ứng các ca public được ch�
 Các việc còn cần hoàn tất trước khi nộp:
 
 - Tự đọc, chạy lại và giải thích được code cùng test trên Python 3.11–3.13.
-- Commit phần việc bằng tài khoản cá nhân, bổ sung hash/link thật vào báo cáo này và bảng đóng góp trong `TEAM.md`.
+- Đã tạo commit kỹ thuật `158d999` với tác giả Doan Nhat Anh; khi tích hợp cần giữ bằng chứng commit này trong lịch sử nhánh nộp.
 - Phối hợp thành viên đánh giá chạy benchmark bốn shape và crash suite; cung cấp phân tích trace cho ADR, không tự điền số liệu chưa có.
 - Kiểm tra báo cáo cùng cả nhóm, chạy `check_submission`, push và tự nộp link repo nhóm trên LMS.
