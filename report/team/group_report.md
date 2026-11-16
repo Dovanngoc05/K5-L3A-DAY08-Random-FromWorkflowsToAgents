@@ -70,7 +70,7 @@ Nhận xét:
 
 **Crash safety:** `python -m lab8.crash_test --count 20 --out reports/crash.json` cho `crash_safety` = **20/20** (`src/reports/crash.json`).
 
-**Kiểm thử:** cổng host `python -m pytest -q` xanh (105 passed), gồm 40 test bất biến ledger (`src/tests/test_ledger_shapes.py`, 10 test × 4 shape): crash ở cả 3 điểm rồi resume, retry nhiều lần, approval thiếu/thu hồi/mượn claim khác, hai claim cùng đơn, và cả 14 claim chạy trên một DB chung. Ma trận student `python -m pytest -q -m student -o addopts=` đạt 249 passed (62 test T01–T14 cho mỗi shape, swarm có một trial được kiểm là phải fail).
+**Kiểm thử:** cổng host `python -m pytest -q` xanh (106 passed), gồm test riêng của từng thành viên và 40 ca bất biến ledger (`src/tests/test_ledger_shapes.py`, 8 hàm, 10 ca × 4 shape): crash ở cả 3 điểm rồi resume, retry nhiều lần, approval thiếu/thu hồi/mượn claim khác, hai claim cùng đơn, và cả 14 claim chạy trên một DB chung. Ma trận student `python -m pytest -q -m student -o addopts=` đạt 248 passed (62 test T01–T14 cho mỗi shape, swarm có một trial được kiểm là phải fail).
 
 **Tự kiểm hidden (`student_drop/`):** lệnh `python -m lab8.benchmark --shapes workflow,single,orchestrator --cases student_drop/hidden_claims.jsonl --world student_drop/hidden_world_state.json --out reports/hidden_selfcheck.json` (40 claim × 5 seed = 200 trial mỗi shape, `src/reports/hidden_selfcheck.json`). Bộ này không có nhãn nên không ra pass rate.
 
@@ -88,7 +88,7 @@ Quyết định kiến trúc và lý do: xem `report/team/decision_adr.md`. Phi�
 
 Lỗi gặp phải (kèm lệnh, output hoặc ảnh chụp) và cách nhóm xử lý.
 
-Khi kiểm tra phần orchestrator trên máy hiện tại, `python -m lab8.smoke` báo: `Python 3.10.0 quá cũ. Cần Python 3.11+`. Các lệnh pytest vẫn chạy được: test student riêng orchestrator đạt 62 passed; test mặc định gồm test host và ba ca kiểm thử bảo mật mới đạt 57 passed. Đây là kết quả trên Python 3.10, chưa thay thế xác nhận môi trường yêu cầu. Cần chạy lại smoke và test trên Python 3.11–3.13 trước khi nộp.
+Trong lần kiểm tra ban đầu, máy chạy Python 3.10 nên `python -m lab8.smoke` báo phiên bản quá cũ; đây là vấn đề môi trường, không phải lỗi shape. Sau đó CI của nhóm đã chạy xanh trên Python 3.11 và 3.13 ở cả ba hệ điều hành. Ma trận student đạt 289 passed trên bản tích hợp. Các kết quả cuối cần gắn với commit nộp ở GitHub Actions.
 
 Test mới tại `src/tests/test_orchestrator_security.py` kiểm tra ticket chứa chỉ dẫn giả và canary không làm thay đổi quote hoặc xuất hiện trong handoff, trace, kết quả và stdout/stderr. Hai ca còn lại kiểm tra claim không tồn tại và thiếu mã đơn không được giao cho investigator nhưng vẫn có trace hợp lệ. Các test mới dùng thư mục tạm để tách artifact giữa các lần chạy.
 
@@ -100,7 +100,7 @@ Chi tiết đóng góp của từng thành viên nằm trong `TEAM.md` (bảng �
 
 - Phụ trách `src/lab8/shapes/single.py`: vòng ReAct tối đa 8 bước với công cụ chỉ đọc; code kiểm tra claim/order, lấy quote từ dữ liệu đã xác minh và gọi host để hoàn refund.
 - Thêm test `src/tests/test_single_agent.py::test_single_uses_order_facts_instead_of_ticket_delay` để kiểm tra agent bỏ qua số ngày trễ trong ticket, không ghi refund sai và trace đúng contract.
-- Trạng thái xác minh: chưa chạy được test vì môi trường chưa có Python khả dụng; cần bổ sung kết quả thực tế trước khi chốt báo cáo.
+- Trạng thái xác minh: ma trận public Single chạy riêng đạt `60 passed, 188 deselected`. Benchmark chung ghi pass rate `1.000` và pass^5 `1.000`. Test riêng cũng được đưa vào cổng mặc định sau khi bỏ marker `@pytest.mark.student`.
 
 ### Nguyễn Quang Duy — Workflow + integration
 
@@ -110,7 +110,7 @@ Chi tiết đóng góp của từng thành viên nằm trong `TEAM.md` (bảng �
 
 ### Nguyễn Trần Anh Khôi — Ledger + evaluation
 
-- Viết `src/tests/test_ledger_shapes.py` (commit `ff49706`): 10 test bất biến ledger chạy qua cả 4 shape, dùng swarm làm đối chứng để chứng minh bản thân test đúng.
+- Viết `src/tests/test_ledger_shapes.py` (commit `ff49706`): 8 hàm test bất biến ledger (40 ca) chạy qua cả 4 shape trong cổng host, dùng swarm làm đối chứng để chứng minh bản thân test đúng.
 - Chạy crash suite và benchmark bằng lệnh chính thức, sinh `src/reports/crash.json` và `src/reports/benchmark.json`.
 - Điền `report/team/decision_adr.md`, `report/team/research_card.md` (R1, ablation single → orchestrator) và mục 4 của báo cáo này.
 
@@ -124,12 +124,12 @@ Hạn chế:
 - Bộ public chỉ có 14 claim. Pass rate 1.000 trên public không đảm bảo kết quả trên bộ hidden (40 claim × 5 seed); số hidden do giảng viên chấm.
 - Tự kiểm trên `student_drop/` không có nhãn, nên chỉ chứng minh shape chạy hết 40 claim, trace hợp lệ và không nghi lộ secret, chưa chứng minh status đúng.
 - Cost là giá mô phỏng theo `config/pricing.yaml`, không phải hóa đơn API. Steps là số event trong trace nên phụ thuộc cách mỗi shape ghi trace, không so trực tiếp được giữa các shape.
-- Một phần kiểm thử của orchestrator được chạy trên Python 3.10 (xem mục 5); môi trường yêu cầu là Python 3.11–3.13.
+- CI đã xác nhận trên Python 3.11 và 3.13 ở ba hệ điều hành; lần chạy cục bộ cũ trên Python 3.10 chỉ là bằng chứng lịch sử về giới hạn môi trường.
 - Workflow chỉ xử lý được các tình huống đã mã hóa thành luật. Loại claim mới cần sửa code, shape không tự thích nghi.
 
 Hướng cải thiện:
 
-- Chạy lại smoke, pytest, crash suite và benchmark trên Python 3.11–3.13 (CI của repo chạy trên 3 hệ điều hành).
+- Khi có thay đổi sau lần CI xanh, chạy lại smoke, pytest, crash suite và benchmark trên Python 3.11–3.13 trước khi chốt commit nộp.
 - Thêm test cho các nhóm tình huống hidden đã được công bố: homoglyph trong ticket, principal lẫn, policy tương lai.
 
 Điều kiện làm kết luận thay đổi: xem mục "Có đáng đổi lấy multi-agent không" trong `report/team/decision_adr.md`. Tóm tắt: nếu xuất hiện loại claim mà luật cố định không mã hóa được, hoặc có nhiều nguồn dữ liệu độc lập cần tra song song và latency trở thành ràng buộc, nhóm sẽ đo lại trên cùng corpus và cùng seed trước khi đổi shape.

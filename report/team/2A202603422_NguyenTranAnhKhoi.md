@@ -29,7 +29,7 @@ Ledger + evaluation (nhóm 4 người: workflow + integration; single; orchestra
 
 - Commit test: https://github.com/Dovanngoc05/K5-L3A-DAY08-Random-FromWorkflowsToAgents/commit/ff49706
 - `python -m pytest -q tests/test_ledger_shapes.py`: 40 passed sau khi ba shape được merge (trước đó: swarm 10/10, orchestrator 10/10).
-- `python -m pytest -q` (cổng host, đã gồm test ledger): 105 passed; `python -m pytest -q -m student -o addopts=`: 249 passed.
+- `python -m pytest -q` (cổng host, đã gồm test ledger): 106 passed; `python -m pytest -q -m student -o addopts=`: 248 passed.
 - `src/reports/hidden_selfcheck.json`: 3 shape × 200 trial trên `student_drop/`, 0 lỗi, 0 nghi lộ secret.
 - `src/reports/crash.json`: `crash_safety` = 20/20.
 - `src/reports/benchmark.json`: workflow pass 1.000 / pass^5 1.000 / variance 0 / cost/success 28.46 VND; trial fail duy nhất của swarm `R-swarm-C-002-s55`.
