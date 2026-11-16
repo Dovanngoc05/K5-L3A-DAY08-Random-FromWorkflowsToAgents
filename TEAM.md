@@ -11,10 +11,10 @@
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-|   1 | Đỗ Văn Ngọc | 2A202603391 | dovanngoc2005@gmail.com | [Dovanngoc05](https://github.com/Dovanngoc05) | Single agent |
+|   1 | Đỗ Văn Ngọc | 2A202603391 | dovanngoc2005@gmail.com | Dovanngoc05 | Single agent |
 |   2 | Nguyễn Quang Duy | 2A202603462 | nduy120505@gmail.com | nduy120505 | Workflow + integration |
-|   3 | DoanNhatAnh | 2A202603408 | nhatanhdoan1@gmail.com | [nhatanh2901](https://github.com/nhatanh2901) | Orchestrator, handoff và bảo mật trace |
-|   4 | Nguyễn Trần Anh Khôi | 2A202603422 | khoinguyentran1111@gmail.com | khoinguyentran1111 (các commit test, report, ADR trước đó hiện dưới tài khoản `NTAnhKhoi`, cùng một người) | Ledger + evaluation |
+|   3 | Đoàn Nhật Anh | 2A202603408 | nhatanhdoan1@gmail.com | nhatanh2901 | Orchestrator, handoff và bảo mật trace |
+|   4 | Nguyễn Trần Anh Khôi | 2A202603422 | khoinguyentran1111@gmail.com | khoinguyentran1111 | Ledger + evaluation |
 
 Gợi ý chia vai:
 
@@ -27,16 +27,16 @@ Gợi ý chia vai:
 
 | Người | Vai | Commit | Test đã thêm hoặc sửa |
 | --- | --- | --- | --- |
-| Đỗ Văn Ngọc (2A202603391) | Single agent | [7d08161](https://github.com/Dovanngoc05/K5-L3A-DAY08-Random-FromWorkflowsToAgents/commit/7d08161) | `src/tests/test_single_agent.py`: single lấy dữ kiện từ order row thay vì số ngày trễ trong ticket (C-002, seed 55), không ghi refund sai và trace đúng contract |
-| DoanNhatAnh (2A202603408) | Orchestrator + handoff + bảo mật | [158d999](https://github.com/Dovanngoc05/K5-L3A-DAY08-Random-FromWorkflowsToAgents/commit/158d999) | `src/tests/test_orchestrator_security.py`: kiểm tra ticket injection, handoff chỉ đọc, trace không lộ dữ liệu và hai nhánh trả về sớm |
-| Nguyễn Trần Anh Khôi (2A202603422) | Ledger + evaluation | [ff49706](https://github.com/Dovanngoc05/K5-L3A-DAY08-Random-FromWorkflowsToAgents/commit/ff49706) | `src/tests/test_ledger_shapes.py` (8 hàm, 10 ca mỗi shape × 4 shape = 40 ca, chạy trong cổng host): `test_crash_at_every_point_then_resume_pays_once`, `test_three_retries_of_a_paying_claim_keep_one_row`, `test_retry_of_an_already_refunded_order_stays_denied`, `test_approval_borrowed_from_another_claim_is_denied`, `test_missing_approval_is_denied_with_audit`, `test_revoked_approval_is_denied_with_audit`, `test_two_claims_on_one_order_pay_once`, `test_public_corpus_in_one_store_keeps_ledger_invariants` |
-| Nguyễn Quang Duy (2A202603462) | Workflow + integration | [603e469](https://github.com/Dovanngoc05/K5-L3A-DAY08-Random-FromWorkflowsToAgents/commit/603e469), [1e53ad2](https://github.com/Dovanngoc05/K5-L3A-DAY08-Random-FromWorkflowsToAgents/commit/1e53ad2) | `src/tests/test_workflow_extra.py`: workflow không tin số ngày trễ trong ticket trên cả 5 seed (T02), truyền quote đầy đủ để host trả phần chênh (T14), host từ chối vẫn giữ quote và có audit `policy_denied` (T07), gọi lại vẫn một refund và trace sạch (4 hàm, 8 ca) |
+| Đỗ Văn Ngọc  | Single agent | [7d08161](https://github.com/Dovanngoc05/K5-L3A-DAY08-Random-FromWorkflowsToAgents/commit/7d08161) | `src/tests/test_single_agent.py`: single lấy dữ kiện từ order row thay vì số ngày trễ trong ticket (C-002, seed 55), không ghi refund sai và trace đúng contract |
+| Đoàn Nhật Anh | Orchestrator + handoff + bảo mật | [158d999](https://github.com/Dovanngoc05/K5-L3A-DAY08-Random-FromWorkflowsToAgents/commit/158d999) | `src/tests/test_orchestrator_security.py`: kiểm tra ticket injection, handoff chỉ đọc, trace không lộ dữ liệu và hai nhánh trả về sớm |
+| Nguyễn Trần Anh Khôi | Ledger + evaluation | [ff49706](https://github.com/Dovanngoc05/K5-L3A-DAY08-Random-FromWorkflowsToAgents/commit/ff49706) | `src/tests/test_ledger_shapes.py`: crash ở cả 3 điểm rồi resume, retry, approval thiếu/thu hồi/mượn claim khác, trần theo đơn, bất biến ledger và quét secret/PII trên cả corpus (10 test × 4 shape) |
+| Nguyễn Quang Duy | Workflow + integration | [603e469](https://github.com/Dovanngoc05/K5-L3A-DAY08-Random-FromWorkflowsToAgents/commit/603e469), [1e53ad2](https://github.com/Dovanngoc05/K5-L3A-DAY08-Random-FromWorkflowsToAgents/commit/1e53ad2) | `src/tests/test_workflow_extra.py`: workflow không tin số ngày trễ trong ticket trên cả 5 seed (T02), truyền quote đầy đủ để host trả phần chênh (T14), host từ chối vẫn giữ quote và có audit `policy_denied` (T07), gọi lại vẫn một refund và trace sạch (4 hàm, 8 ca) |
 
 ## Cá nhân
 
 Báo cáo của Đỗ Văn Ngọc: [2A202603391_DoVanNgoc.md](report/team/2A202603391_DoVanNgoc.md).
 
-Báo cáo của DoanNhatAnh: [2A202603408_DoanNhatAnh.md](report/team/2A202603408_DoanNhatAnh.md).
+Báo cáo của Đoàn Nhật Anh: [2A202603408_DoanNhatAnh.md](report/team/2A202603408_DoanNhatAnh.md).
 
 Báo cáo của Nguyễn Trần Anh Khôi: [2A202603422_NguyenTranAnhKhoi.md](report/team/2A202603422_NguyenTranAnhKhoi.md).
 
