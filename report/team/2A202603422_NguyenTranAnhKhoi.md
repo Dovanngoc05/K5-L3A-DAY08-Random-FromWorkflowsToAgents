@@ -5,7 +5,7 @@
 - Họ tên: Nguyễn Trần Anh Khôi
 - MSSV: 2A202603422
 - Email: khoinguyentran1111@gmail.com
-- GitHub: khoinguyentran1111
+- GitHub: khoinguyentran1111. Lưu ý: các commit `ff49706`, `5fb3b5d`, `289c88c`, `3b97524` và các commit khác làm từ máy cá nhân trước khi đổi cấu hình git hiện trên GitHub dưới tài khoản `NTAnhKhoi` (cùng một người, do email trong cấu hình git lúc đó); từ commit sau đó dùng `khoinguyentran1111`.
 
 ## 2. Phần việc phụ trách
 
