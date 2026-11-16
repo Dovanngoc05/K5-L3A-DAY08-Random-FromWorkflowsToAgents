@@ -4,8 +4,8 @@
 
 - Họ tên: Nguyễn Trần Anh Khôi
 - MSSV: 2A202603422
-- Email:
-- GitHub:
+- Email: khoinguyentran1111@gmail.com
+- GitHub: khoinguyentran1111
 
 ## 2. Phần việc phụ trách
 
@@ -35,13 +35,25 @@ Ledger + evaluation (nhóm 4 người: workflow + integration; single; orchestra
 
 ## 5. Công cụ AI đã dùng
 
-- Claude Code (trong VS Code): đọc tài liệu lab và lập danh sách việc theo vai; viết nháp `src/tests/test_ledger_shapes.py`; chạy lệnh benchmark/crash; soạn nháp ADR, research card và mục 4 báo cáo nhóm.
-- Cách tự kiểm tra:
-  - Chạy test trên swarm (shape tham chiếu đã đúng) trước: 10/10 pass, nên các test fail ở shape stub là do shape, không do test sai.
-  - Chạy lại trên orchestrator sau khi merge (10/10) và trên cả 4 shape sau khi merge đủ (40/40); xác nhận cổng host vẫn xanh.
-  - Mọi số trong ADR/báo cáo đọc từ `src/reports/benchmark.json` và `src/reports/crash.json` do công cụ sinh ra, không sửa tay JSON; đối chiếu trace `traces/R-workflow-C-014-s55.json` để xác nhận mô tả các event.
-  - Nguồn của research card (arXiv:2512.08296) được tra lại trên web, không ghi URL từ trí nhớ.
+- Claude Code: đọc tài liệu lab và lập danh sách việc theo vai; viết nháp `src/tests/test_ledger_shapes.py`; chạy lệnh benchmark/crash; soạn nháp ADR, research card; soạn nháp mục 6 "Tự đánh giá" chỉ từ các bằng chứng ở mục 3–4, sau đó tôi đọc lại và chỉnh theo ý mình.
 
 ## 6. Tự đánh giá
 
-...
+**Đã làm tốt**
+
+- Hoàn thành đủ phần việc của vai ledger + evaluation: có commit kỹ thuật kèm test (`ff49706`), hai file bằng chứng do công cụ sinh ra (`crash.json` 20/20, `benchmark.json` 4 shape × 14 claim × 5 seed), ADR và research card điền đủ, `check_submission` ra 0 FAIL.
+- Test ledger viết trước khi các shape xong và chạy được ngay trên swarm, nên khi từng shape được merge, nhóm biết ngay shape đó có giữ đúng các quy tắc ledger hay không (orchestrator 10/10, sau đó cả 4 shape 40/40).
+- Quyết định kiến trúc dựa trên số đo cùng corpus, cùng seed: ba shape bằng nhau về pass rate, nên chọn theo mức tự chủ và cost/success thay vì mặc định multi-agent tốt hơn.
+
+**Chưa làm được / hạn chế**
+
+- Chưa tự kiểm trên bộ hidden (`student_drop/` chưa được phát), nên pass rate 1.000 mới chỉ là kết quả trên 14 claim public.
+- Ablation trong research card dùng lại hai dòng của cùng một lần benchmark, không phải một thí nghiệm riêng; số liệu đều từ MockLLM nên chưa nói được gì về model thật.
+- Môi trường chạy là Python 3.14, ngoài khoảng 3.11–3.13 mà lab yêu cầu; chưa chạy lại trên phiên bản được hỗ trợ.
+- Phần lớn bản nháp code và báo cáo do AI soạn; tôi cần tự giải thích được từng test và từng con số khi người chấm hỏi.
+
+**Bài học**
+
+- Checkpoint không làm cho side effect chạy đúng một lần; idempotency key `refund:{claim_id}` và việc ghi ledger cùng audit trong một transaction mới đảm bảo một claim chỉ có một refund kể cả khi crash.
+- Shape phải truyền quote đầy đủ và để host tự trừ phần đã hoàn; shape tự từ chối thì mất audit `policy_denied`.
+- Khi các kiến trúc bằng nhau về chất lượng, kiến trúc ít tự chủ nhất thường rẻ hơn và dễ kiểm chứng hơn.

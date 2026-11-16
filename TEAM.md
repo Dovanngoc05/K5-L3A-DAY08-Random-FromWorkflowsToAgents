@@ -14,7 +14,7 @@
 |   1 |    Đỗ Văn Ngọc    |2A202603391      |       |        | Single agent        |
 |   2 |        |      |       |        |         |
 |   3 | DoanNhatAnh | 2A202603408 | nhatanhdoan1@gmail.com | [nhatanh2901](https://github.com/nhatanh2901) | Orchestrator, handoff và bảo mật trace |
-|   4 | Nguyễn Trần Anh Khôi | 2A202603422 |       |        | Ledger + evaluation |
+|   4 | Nguyễn Trần Anh Khôi | 2A202603422 | khoinguyentran1111@gmail.com | khoinguyentran1111 | Ledger + evaluation |
 
 Gợi ý chia vai:
 
