@@ -4,7 +4,7 @@ Tối đa 5 trang ngoài phụ lục. Số liệu lấy từ file trong `src/rep
 
 ## 1. Thông tin nhóm
 
-- Tên nhóm:
+- Tên nhóm: Random
 - Thành viên: xem `TEAM.md`
 - Commit chốt (trùng `report/team/decision_adr.md`):
 
@@ -49,6 +49,12 @@ Test mới tại `src/tests/test_orchestrator_security.py` kiểm tra ticket ch�
 ## 6. Tổng hợp đóng góp
 
 Chi tiết đóng góp của từng thành viên nằm trong `TEAM.md` (bảng đóng góp) và báo cáo cá nhân `report/team/MSSV_HoTen.md`.
+
+### Đỗ Văn Ngọc — Single agent
+
+- Phụ trách `src/lab8/shapes/single.py`: vòng ReAct tối đa 8 bước với công cụ chỉ đọc; code kiểm tra claim/order, lấy quote từ dữ liệu đã xác minh và gọi host để hoàn refund.
+- Thêm test `src/tests/test_single_agent.py::test_single_uses_order_facts_instead_of_ticket_delay` để kiểm tra agent bỏ qua số ngày trễ trong ticket, không ghi refund sai và trace đúng contract.
+- Trạng thái xác minh: chưa chạy được test vì môi trường chưa có Python khả dụng; cần bổ sung kết quả thực tế trước khi chốt báo cáo.
 
 ## 7. Hạn chế và hướng cải thiện
 
