@@ -1,4 +1,4 @@
-﻿Lab 9 verification â€” actual command output
+Lab 9 verification â€” actual command output
 
 > python -m lab9.smoke
 ok   import pydantic_evals
@@ -104,8 +104,8 @@ cost_per_success          50.8077    50.8077  +0.0000
 exit code: 0 (expected 0)
 
 > python -m lab9.mutation --spec config/metric_spec_v2.yaml --baseline reports/baseline_v2.json
-  fixed                expect merge got merge ok          
-  honest_refactor      expect merge got merge ok          
+  fixed                expect merge got merge ok
+  honest_refactor      expect merge got merge ok
   seeded_regression    expect block got block ok          refund_amount_correct, pass_rate, pass_hat_5, reply_ledger_consistent, proposal_correct, slice:money_movement/pass_rate, slice:adversarial/pass_rate, slice:denial/pass_rate
   slice_regression     expect block got block ok          slice:money_movement/pass_rate
   flaky_regression     expect block got block ok          pass_rate, pass_hat_5, slice:money_movement/pass_rate

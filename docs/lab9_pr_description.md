@@ -30,3 +30,12 @@ Fixed gate exit 0; detection 100.00%; false alarms 0.00%.
 A/A: {"approval_bypass": 0, "secret_leak": 0, "db_fact_kept": 0.0, "refund_amount_correct": 0.0, "pass_rate": 0.0, "reply_ledger_consistent": 0.0, "proposal_correct": 0.0, "pass_5": 0.0, "pass_at_1": 0.0, "pass_hat_1": 0.0, "pass_at_3": 0.0, "pass_hat_3": 0.0, "pass_at_5": 0.0, "pass_hat_5": 0.0, "cost_per_success": 0.0}
 
 Trap output: xem docs/lab9_verification.txt sau khi chạy lab9.traps. GitHub CI chưa xác nhận tại lúc sinh bản nháp này.
+
+## Trap CLI exits
+
+evaluator_errors_as_nan: exit 1 — blocked: integrity
+dropped_failing_rows: exit 1 — blocked: integrity
+cherry_picked_seeds: exit 1 — blocked: integrity
+loosened_spec: exit 1 — blocked: integrity
+
+Full suite: 390 passed. Verification output: docs/lab9_verification.txt.

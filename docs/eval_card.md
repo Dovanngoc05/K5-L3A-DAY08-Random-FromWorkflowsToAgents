@@ -1,6 +1,6 @@
 # Eval card — LogiX-VN Lab 9
 
-Code/grader: working tree trên nhánh starter/d09, base commit `2adbcfc`; chưa có commit chốt Lab 9 tại lúc sinh card. Không dùng hash base làm hash implementation. Sinh lại card sau commit code để ghi đúng provenance.
+Code/grader commit: `83d10cf`; code Lab 9 sạch tại lúc sinh card. Commit tài liệu sau đó có thể khác hash code này.
 
 Run IDs: E-swarm-20261117-c3d4, E-fixed-20261117-c3d4, E-seeded_regression-20261117-c3d4.
 Eval v1 SHA `c3d4ede363db`; spec 1.1; 14 item x 5 seed 11/22/33/44/55; nguồn lab8_public, nhãn tách riêng.
