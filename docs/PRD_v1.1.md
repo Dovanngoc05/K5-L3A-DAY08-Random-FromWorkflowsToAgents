@@ -55,7 +55,8 @@ Quy tắc: tiền và phê duyệt luôn chấm bằng code. Judge chỉ dùng c
 - [ ] 14 item: CI rộng, chỉ bắt được hồi quy lớn; lỗi hiếm (1 seed/1 item) không thể có ý nghĩa thống kê.
 - [ ] Judge replay trên CSV đã công khai, chưa có tập held-out mới; nhãn người có sai sót (H-081).
 - [ ] `quiet_override` (tin ticket không để lại event) qua mặt `db_fact_kept`; chỉ outcome metric bắt được.
-- [ ] Gate chưa kiểm integrity của report (NaN, dòng bị bỏ, seed chọn lọc): làm ở M7.
+- [x] Gate kiểm integrity của report (NaN, dòng bị bỏ/trùng, seed chọn lọc, ratchet): xong ở M7, xem mục v2 trong `docs/eval_card.md`.
+- [ ] Report giả mạo nhất quán hoàn toàn chỉ bị chặn nhờ CI tự chạy lại eval.
 
 ## 7. Khi nào lên v1.2
 - Đổi eval set (thêm item từ trace case, adversarial pack v2) → tăng `eval_set_version`, chạy lại baseline.
