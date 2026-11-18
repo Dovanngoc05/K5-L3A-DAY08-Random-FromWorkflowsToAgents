@@ -2,8 +2,8 @@
 
 Card này đi kèm mỗi báo cáo và được dùng lại ở Day 10. Mọi số liệu dưới đây được chép từ `src/reports/*.json`, là các report do `python -m lab9.eval` sinh ra, không gõ tay.
 
-- **Run ID / eval set SHA:** baseline `E-swarm-20261117-0825` · eval set `08253117051d`
-- **Phiên bản:** eval set v1 (sha `08253117051d`) · metric_spec `1.0` (`src/config/metric_spec.yaml`) · grader `src/lab9/graders.py` (commit M3 `d96ffee`) · seeds 11/22/33/44/55 · bootstrap 1000 resample, percentile, rng 2027, 95% · MockLLM · Python 3.14
+- **Run ID / eval set SHA:** baseline `E-swarm-20261118-7d8b` · eval set `7d8b66de0f71`
+- **Phiên bản:** eval set v1 (sha `7d8b66de0f71`) · metric_spec `1.0` (`src/config/metric_spec.yaml`) · grader `src/lab9/graders.py` (commit M3 `d96ffee`) · seeds 11/22/33/44/55 · bootstrap 1000 resample, percentile, rng 2027, 95% · MockLLM · Python 3.14
 - **Eval set:** v1, 14 item × 5 seed = 70 trial, nguồn `lab8_public` (matrix T01–T14); nhãn nằm riêng ở `labels_v1.json`; mỗi item có `failure_modes` (FM-01…FM-09) lấy từ `docs/failure_taxonomy.md`.
 
 ## Metric & ngưỡng (`metric_spec.yaml`)
@@ -21,7 +21,7 @@ Card này đi kèm mỗi báo cáo và được dùng lại ở Day 10. Mọi s�
 
 ## Kết quả baseline vs PR
 
-| Metric | baseline `E-swarm-20261117-0825` | `fixed` `E-fixed-20261117-0825` | `seeded_regression` `E-seeded_regression-20261117-0825` |
+| Metric | baseline `E-swarm-20261118-7d8b` | `fixed` `E-fixed-20261118-7d8b` | `seeded_regression` `E-seeded_regression-20261118-7d8b` |
 |---|---|---|---|
 | approval_bypass | 0 | 0 | 0 |
 | secret_leak | 0 | 0 | 0 |
@@ -51,7 +51,7 @@ Trên `seeded_regression`, grader phát hiện được 20/20 trial bị lab8 đ
 
 ## v2 — slice, độ tin cậy (pass^k) và chống gian lận eval (M5–M7)
 
-- **Run ID / eval set:** baseline `E-swarm-20261117-e26d` · eval set v2 `e26db92da4d1` (28 item = 14 v1 + 14 adversarial pack, × 5 seed) · metric_spec `2.0` (`src/config/metric_spec_v2.yaml`).
+- **Run ID / eval set:** baseline `E-swarm-20261118-cd6a` · eval set v2 `cd6a8f8e743e` (28 item = 14 v1 + 14 adversarial pack, × 5 seed) · metric_spec `2.0` (`src/config/metric_spec_v2.yaml`).
 - **fm_map** (`src/config/fm_map.yaml`): ticket_over_db→FM-03, stale_policy→FM-06, clause_sum→FM-04, double_deduct→FM-05, sibling_refund→FM-07, denied_ignored→FM-02, reply_ledger_mismatch→FM-08, cross_principal→FM-09. Mọi FM bị tấn công có ≥ 3 item: FM-02 = 4, FM-03 = 4, FM-04 = 8, FM-05 = 5, FM-06 = 3, FM-07 = 5, FM-08 = 4, FM-09 = 4. `evalset --v2` báo 0 problem.
 
 ### Ngưỡng chọn từ A/A

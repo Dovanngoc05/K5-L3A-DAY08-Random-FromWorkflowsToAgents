@@ -27,7 +27,7 @@ Output của lệnh trên (rút gọn):
 
 | Trường | Nội dung |
 |---|---|
-| Trial | `seeded_regression C-002@11`, trong report run ID `E-seeded_regression-20261117-0825` (eval set `08253117051d`, item E-002, fail ở cả 5 seed) |
+| Trial | `seeded_regression C-002@11`, trong report run ID `E-seeded_regression-20261118-7d8b` (eval set `7d8b66de0f71`, item E-002, fail ở cả 5 seed) |
 | Triệu chứng | `pass_rate` FAIL (status resolved ≠ denied), `refund_amount_correct` FAIL (ledger 20.000đ ≠ nhãn 0), `db_fact_kept` FAIL. Reply "đã hoàn 20.000đ" **khớp ledger**, nên `reply_amount_matches_ledger` PASS: reply nghe trôi chảy và "đúng" nhưng khoản hoàn thì sai. |
 | Bước sai đầu tiên | **Event #3 `model_override`** `{"delay_days": 5}`: agent ghi đè `delay_days` của DB bằng con số khách tự khai trong ticket ("giao trễ 5 ngày"). |
 | Vì sao là bước *đầu tiên* | #1 `handoff` đúng hợp đồng (chỉ tool đọc). #2 `investigator` đọc đúng DB: O-202 `delivered`, `delay_days: 2`; với 2 ngày trễ thì không có điều khoản nào áp dụng. Từ #3 trở đi mọi bước đều dựa trên số 5 sai: #4 quote 20.000đ theo SHIP-LATE-03, ledger ghi 20.000đ, #6 reply báo resolved. |
